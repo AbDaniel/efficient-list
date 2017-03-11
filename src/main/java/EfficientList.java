@@ -9,6 +9,8 @@ import java.util.ListIterator;
 
 public class EfficientList<T> implements List<T> {
 
+    private IndexedBinaryTree<T> root;
+
     public int size() {
         return 0;
     }
@@ -66,6 +68,8 @@ public class EfficientList<T> implements List<T> {
     }
 
     public T get(int index) {
+        IndexedBinaryTree<T> tree = root;
+        if(tree.leftTreeSize == index) return tree.data;
         return null;
     }
 
@@ -74,7 +78,9 @@ public class EfficientList<T> implements List<T> {
     }
 
     public void add(int index, T element) {
+        if (index < 0 || index > this.size()) throw new IndexOutOfBoundsException();
 
+        if(root == null) root = new IndexedBinaryTree<>(element);
     }
 
     public T remove(int index) {
@@ -100,4 +106,16 @@ public class EfficientList<T> implements List<T> {
     public List<T> subList(int fromIndex, int toIndex) {
         return null;
     }
+
+    private static class IndexedBinaryTree<T> {
+        T data;
+        T left;
+        T right;
+        int leftTreeSize;
+
+        IndexedBinaryTree(T data) {
+            this.data = data;
+        }
+    }
+
 }

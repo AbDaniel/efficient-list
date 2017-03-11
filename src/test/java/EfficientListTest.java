@@ -12,16 +12,41 @@ public class EfficientListTest {
 
     @Test
     public void sizeOfListShouldBeZeroWhenListIsEmpty() {
-        List<Object> list = new EfficientList<>();
+        EfficientList<Object> list = new EfficientList<>();
 
         assertEquals(0, list.size());
     }
 
     @Test
-    public void isEmptyShouldReturnZeroForAEmptyList() {
-        List<Object> list = new EfficientList<>();
+    public void isEmptyShouldReturnTrueForAEmptyList() {
+        EfficientList<Object> list = new EfficientList<>();
 
-        assertTrue(list.isEmpty());
+        assertFalse(list.isEmpty());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void shouldThrowExceptionWhenIndexIsNegative() {
+        List<Integer> list = new EfficientList<>();
+
+        list.add(-1, 1);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void shouldThrowExceptionWhenIndexIsGreaterThanSize() {
+        List<Integer> list = new EfficientList<>();
+
+        list.add(1, 1);
+    }
+
+
+    @Test
+    public void shouldBeAbleToRetriveElementWhenSizeOfListIsOne() {
+        List<Integer> list = new EfficientList<>();
+        list.add(0, 10);
+
+        int acutal = list.get(0);
+
+        assertEquals(10, acutal);
     }
 
 }
