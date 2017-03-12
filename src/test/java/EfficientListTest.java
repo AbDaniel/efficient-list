@@ -49,4 +49,40 @@ public class EfficientListTest {
         assertEquals(10, acutal);
     }
 
+    @Test
+    public void shouldBeAbleAddElementAtIndexZeroWhenElementAlreadyPresentAtZero() {
+        EfficientList<Integer> list = new EfficientList<>();
+        list.add(0, 10);
+        list.add(0, 11);
+
+        int acutal = list.get(0);
+
+        assertEquals(11, acutal);
+    }
+
+    @Test
+    public void shouldBeAbleToAddElementToEndOfTheList() {
+        EfficientList<Character> list = new EfficientList<>();
+        list.add(0, 'a');
+        list.add(1, 'b');
+
+
+        char acutal = list.get(0);
+        assertEquals('a', acutal);
+
+        acutal = list.get(1);
+        assertEquals('b', acutal);
+    }
+
+    @Test
+    public void shouldReturnTheRightSizeForNonEmptyList() {
+        EfficientList<Character> list = new EfficientList<>();
+        list.add(0, 'a');
+        list.add(1, 'b');
+
+
+        int acutal = list.size();
+
+        assertEquals(2, acutal);
+    }
 }

@@ -12,7 +12,14 @@ public class EfficientList<T> implements List<T> {
     private IndexedBinaryTree<T> root;
 
     public int size() {
-        return 0;
+        int size = 0;
+        IndexedBinaryTree<T> currentNode = root;
+        while (currentNode != null) {
+            size += currentNode.leftTreeSize + 1;
+            currentNode = currentNode.right;
+        }
+
+        return size;
     }
 
     public boolean isEmpty() {
@@ -36,7 +43,19 @@ public class EfficientList<T> implements List<T> {
     }
 
     public boolean add(T t) {
-        return false;
+        IndexedBinaryTree<T> nodeToBeInserted = new IndexedBinaryTree<>(t);
+        if (root == null) {
+            root = nodeToBeInserted;
+            return true;
+        }
+
+        IndexedBinaryTree<T> currentNode = root;
+        while (currentNode.right != null) {
+            currentNode = currentNode.right;
+        }
+
+        currentNode.right = nodeToBeInserted;
+        return true;
     }
 
     public boolean remove(Object o) {
@@ -68,9 +87,16 @@ public class EfficientList<T> implements List<T> {
     }
 
     public T get(int index) {
-        IndexedBinaryTree<T> tree = root;
-        if(tree.leftTreeSize == index) return tree.data;
-        return null;
+        IndexedBinaryTree<T> currentNode = root;
+        do {
+            if (currentNode.leftTreeSize == index) break;
+            if (index < currentNode.leftTreeSize) currentNode = currentNode.left;
+            else {
+                index -= currentNode.leftTreeSize + 1;
+                currentNode = currentNode.right;
+            }
+        } while (index != root.leftTreeSize);
+        return currentNode.data;
     }
 
     public T set(int index, T element) {
@@ -80,7 +106,33 @@ public class EfficientList<T> implements List<T> {
     public void add(int index, T element) {
         if (index < 0 || index > this.size()) throw new IndexOutOfBoundsException();
 
-        if(root == null) root = new IndexedBinaryTree<>(element);
+        IndexedBinaryTree<T> elementTobeInserted = new IndexedBinaryTree<>(element);
+
+        if (index == this.size()) {
+            this.add(element);
+            return;
+        }
+
+        int i = index;
+        IndexedBinaryTree<T> currentNode = root;
+        while (i != currentNode.leftTreeSize) {
+            if (i < currentNode.leftTreeSize) {
+                currentNode.increaseLeftTreeSize(1);
+                currentNode = currentNode.left;
+            } else {
+                i -= currentNode.leftTreeSize;
+                currentNode = currentNode.right;
+            }
+        }
+
+        if (currentNode.left == null) {
+            currentNode.increaseLeftTreeSize(1);
+            currentNode.left = elementTobeInserted;
+        } else {
+            IndexedBinaryTree<T> temp = currentNode.right;
+            currentNode.right = elementTobeInserted;
+            elementTobeInserted.right = temp;
+        }
     }
 
     public T remove(int index) {
@@ -109,12 +161,16 @@ public class EfficientList<T> implements List<T> {
 
     private static class IndexedBinaryTree<T> {
         T data;
-        T left;
-        T right;
+        IndexedBinaryTree<T> left;
+        IndexedBinaryTree<T> right;
         int leftTreeSize;
 
         IndexedBinaryTree(T data) {
             this.data = data;
+        }
+
+        void increaseLeftTreeSize(int i) {
+            this.leftTreeSize += 1;
         }
     }
 
