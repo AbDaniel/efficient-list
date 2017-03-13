@@ -88,14 +88,13 @@ public class EfficientList<T> implements List<T> {
 
     public T get(int index) {
         IndexedBinaryTree<T> currentNode = root;
-        do {
-            if (currentNode.leftTreeSize == index) break;
+        while (index != currentNode.leftTreeSize) {
             if (index < currentNode.leftTreeSize) currentNode = currentNode.left;
             else {
                 index -= currentNode.leftTreeSize + 1;
                 currentNode = currentNode.right;
             }
-        } while (index != root.leftTreeSize);
+        }
         return currentNode.data;
     }
 
@@ -120,7 +119,7 @@ public class EfficientList<T> implements List<T> {
                 currentNode.increaseLeftTreeSize(1);
                 currentNode = currentNode.left;
             } else {
-                i -= currentNode.leftTreeSize;
+                i -= currentNode.leftTreeSize + 1;
                 currentNode = currentNode.right;
             }
         }
@@ -129,9 +128,13 @@ public class EfficientList<T> implements List<T> {
             currentNode.increaseLeftTreeSize(1);
             currentNode.left = elementTobeInserted;
         } else {
-            IndexedBinaryTree<T> temp = currentNode.right;
+            currentNode.increaseLeftTreeSize(1);
+            currentNode = currentNode.left;
+            while (currentNode.right != null) {
+                currentNode = currentNode.right;
+            }
+
             currentNode.right = elementTobeInserted;
-            elementTobeInserted.right = temp;
         }
     }
 
