@@ -154,4 +154,30 @@ public class EfficientListTest {
         assertEquals(new Character('m'), list.get(5));
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void shouldThrowExceptionWhenIndexIsNegativeWhileUsingRemove() {
+        List<Integer> list = new EfficientList<>();
+
+        list.remove(-1);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void shouldThrowExceptionWhenIndexIsGreaterThanSizeWhileUsingRemove() {
+        EfficientList<Character> list = new EfficientList<>();
+        list.add('h');
+        list.add(0, 'e');
+        list.add(2, 'l');
+        list.add(0, 'b');
+        list.add(0, 'a');
+        list.add(2, 'd');
+        list.add(2, 'c');
+        list.add(5, 'f');
+        list.add(6, 'g');
+        list.add(8, 'j');
+        list.add(8, 'i');
+        list.add(10, 'k');
+
+        list.remove(13);
+    }
+
 }

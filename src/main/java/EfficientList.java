@@ -11,6 +11,7 @@ public class EfficientList<T> implements List<T> {
 
     private IndexedBinaryTree<T> root;
 
+    @Override
     public int size() {
         int size = 0;
         IndexedBinaryTree<T> currentNode = root;
@@ -86,6 +87,7 @@ public class EfficientList<T> implements List<T> {
 
     }
 
+    @Override
     public T get(int index) {
         IndexedBinaryTree<T> currentNode = root;
         while (index != currentNode.leftTreeSize) {
@@ -102,6 +104,7 @@ public class EfficientList<T> implements List<T> {
         return null;
     }
 
+    @Override
     public void add(int index, T element) {
         if (index < 0 || index > this.size()) throw new IndexOutOfBoundsException();
 
@@ -138,7 +141,10 @@ public class EfficientList<T> implements List<T> {
         }
     }
 
+    @Override
     public T remove(int index) {
+        if (index < 0 || index > this.size()) throw new IndexOutOfBoundsException();
+
         return null;
     }
 
